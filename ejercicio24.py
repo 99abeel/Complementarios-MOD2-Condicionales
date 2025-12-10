@@ -1,54 +1,65 @@
-print("--- Calculadora de Tiempo de Cocción ---")
-print("Opciones de carne: vacuno, cordero")
-print("Opciones de punto: casi cruda, al punto, bien hecha")
+# El tiempo de cocción. 
+# Sabiendo que: 
+# ● Para cocinar 500 gramos de carne de vacuno, se necesita: 
+# ○ 10 minutos si quieres una cocción casi cruda 
+# ○ 17 minutos si quieres una cocción al punto 
+# ○ 25 minutos si quieres una cocción bien hecha. 
+# ● Para cocinar 400 gramos de carne de cordero se necesita: 
+# ○ 15 minutos si quieres una cocción casi cruda 
+# ○ 25 minutos si quieres una cocción al punto 
+# ○ 40 minutos si quieres una cocción bien hecha. 
+# ● El tiempo de cocción es proporcional al peso. 
+# Dependiendo de la información introducida por el usuario (tipo de carne, modo de cocción y 
+# peso), mostrar el tiempo de cocción de una carne en segundos. 
 
-# 1. Solicitamos datos de entrada
-tipo_carne = input("Introduce el tipo de carne: ").lower()
-modo_coccion = input("Introduce el punto de cocción: ").lower()
-peso_usuario = float(input("Introduce el peso a cocinar (en gramos): "))
+vacuno1 = 10
+vacuno2= 17
+vacuno3 = 25
 
-# Variables para almacenar los datos base según la selección
-# Inicializamos en 0
-tiempo_base_minutos = 0
-peso_base_gramos = 0
-datos_correctos = False
+cordero1 = 15
+cordero2 = 25
+cordero3= 40
+print("--- Tipos de carne --- ")
+print("1. Vacuno.")
+print("2. Cordero.")
 
-# 2. Lógica de selección
-if tipo_carne == "vacuno":
-    peso_base_gramos = 500
-    if modo_coccion == "casi cruda":
-        tiempo_base_minutos = 10
-        datos_correctos = True
-    elif modo_coccion == "al punto":
-        tiempo_base_minutos = 17
-        datos_correctos = True
-    elif modo_coccion == "bien hecha":
-        tiempo_base_minutos = 25
-        datos_correctos = True
+carne = input("Introduce tipo de carne: ")
 
-elif tipo_carne == "cordero":
-    peso_base_gramos = 400
-    if modo_coccion == "casi cruda":
-        tiempo_base_minutos = 15
-        datos_correctos = True
-    elif modo_coccion == "al punto":
-        tiempo_base_minutos = 25
-        datos_correctos = True
-    elif modo_coccion == "bien hecha":
-        tiempo_base_minutos = 40
-        datos_correctos = True
+match carne:
+    case '1': carne='vacuno'
+    case '2': carne='cordero'
+    case _: print("Eleccion de tipo de carne incorrecta.")
 
-# 3. Cálculo y Salida
-if datos_correctos:
-    # Convertimos el tiempo base a segundos
-    tiempo_base_segundos = tiempo_base_minutos * 60
-    
-    # Aplicamos la regla de proporcionalidad
-    # (Peso Nuevo / Peso Base) * Tiempo Base
-    tiempo_total_segundos = (peso_usuario / peso_base_gramos) * tiempo_base_segundos
-    
-    print("-" * 30)
-    print(f"Para cocinar {peso_usuario}g de {tipo_carne} '{modo_coccion}':")
-    print(f"El tiempo necesario es: {tiempo_total_segundos:.0f} segundos.")
+print("--- tipo de cocción ---")
+print("1. Casi cruda.")
+print("2. Al punto.")
+print("3. Bien hecha.")
+
+punto=int(input("Introduce modo de cocción: (1, 2 o 3): "))
+if punto<1 or punto>3:
+    print("Error, de punto de cocción.")
 else:
-    print("Error: El tipo de carne o el modo de cocción no son válidos.")
+    try:
+        peso = int(input("Introduce el peso de la carne: "))
+        peso=abs(peso)
+    except ValueError:
+        print("El peso debe ser numerico.")
+    else:
+
+        tiempo=0
+        if carne == 'vacuno':
+            match punto:
+                case 1: tiempo=(vacuno1*peso)/500
+                case 2: tiempo=(vacuno2*peso)/500
+                case 3: tiempo=(vacuno3*peso)/500
+                case _: print("Opcion no valida.")
+
+        elif(carne == 'cordero'):
+            match punto:
+                case 1: tiempo=(cordero1*peso)/400
+                case 2: tiempo=(cordero2*peso)/400
+                case 3: tiempo=(cordero3*peso)/400
+                case _: print("Opcion no valida.")  
+
+        print(f"Se necesita cocer durante {tiempo} minutos.")
+        print(f"Se necesita cocer durante", tiempo*60, "segundos")
